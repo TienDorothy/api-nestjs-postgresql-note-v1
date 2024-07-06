@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  # nestjs:
+  #   container_name: nestjs-api
+  #   build: .
+  #   ports:
+  #     - '3000:3000'
+  #   env_file:
+  #     - .env
+  #   depends_on:
+  #     - postgres
+
+  # postgres:
+  dev-database:
+    image: postgres:15.0
+    container_name: dev-database # docker container
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: Nrtal25.,
+      POSTGRES_DB: nestjs-api
+    # volumes:
+    #   - postgres_data:/var/lib/postgresql/data
+    networks:
+      - nestjs-network
+networks:
+  nestjs-network:
+# Create container, network... from "docker composer" files:
+# -d: back {detach mode}
+# docker compose up -d
+
