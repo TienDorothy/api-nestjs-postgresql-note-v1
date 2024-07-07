@@ -6,7 +6,6 @@
   "private": true,
   "license": "UNLICENSED",
   "scripts": {
-    "nest": "nest g mo users && nest g controller users --no-spec && nest g service users --no-spec",
     "prisma:dev:deploy": "prisma migrate deploy",
     "db:dev:remove": "docker compose rm dev-database --stop --force --volumes",
     "db:dev:create": "docker compose up dev-database --detach",
