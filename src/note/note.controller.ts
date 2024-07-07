@@ -10,26 +10,18 @@ import {
   Post,
   UseGuards,
 } from '@nestjs/common';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger'; // Import Swagger decorators
 import { JwtGuard } from '../../src/auth/guard/jwt.guard';
 import { GetUserReq } from '../../src/auth/decorator/user.decorator';
 import { InsertNoteDto } from './dto/insert.note.dto';
 import { UpdateNoteDto } from './dto/update.note.dto';
 
+@ApiBearerAuth() // Enable Bearer token authentication for Swagger
+@ApiTags('Notes') // Tag all endpoints under 'notes' for Swagger
 @UseGuards(JwtGuard)
 @Controller('notes')
 export class NoteController {
   constructor(private noteService: NoteService) {}
-
-  @Get() // notes/
-  async getAll(@GetUserReq('id') userId: number) {
-    return this.noteService.getAll(userId);
-  }
-  @Get(':id') //  notes/:id
-  async getById(@Param('id', ParseIntPipe) noteId: number) {
-    const note = this.noteService.getById(noteId);
-    console.log(note);
-    return note;
-  }
 
   @Post()
   async insert(
@@ -37,6 +29,17 @@ export class NoteController {
     @Body() insertNoteDto: InsertNoteDto
   ) {
     return this.noteService.insert(userId, insertNoteDto);
+  }
+
+  @Get() // notes/
+  async getAll(@GetUserReq('id') userId: number) {
+    return this.noteService.getAll(userId);
+  }
+
+  @Get(':id') //  notes/:id
+  async getById(@Param('id', ParseIntPipe) noteId: number) {
+    const note = await this.noteService.getById(noteId);
+    return note;
   }
 
   @Patch(':id') // notes/:id
