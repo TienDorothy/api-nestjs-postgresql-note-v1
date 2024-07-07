@@ -13,4 +13,14 @@ export class PrismaService extends PrismaClient {
       },
     });
   }
+
+  // for test : test/app.e2e-spec.ts
+  cleanDB() {
+    // 1-N relations
+    return this.$transaction([
+      this.note.deleteMany(),
+      this.user.deleteMany(),
+      // 1-N relations
+    ]);
+  }
 }
